@@ -1,0 +1,76 @@
+// Nagy Péter
+// M07ILF
+//statfiz beadandó
+//2018.04.23.
+//oprendszer:windows10
+//IDE:VS
+
+
+#include "stdafx.h"
+
+#include <array>    
+#include <numeric>  
+#include <iomanip>  
+#include <iostream> 
+#include <fstream>
+#include <random>   
+#include <math.h>
+
+
+
+//random szám 0 és N között
+double veletlen(double N) {
+	std::random_device rd;
+	std::mt19937 Generator(rd());
+	std::uniform_real_distribution<double> Distribution(0, N);
+	return Distribution(Generator);
+}
+
+
+
+
+
+int main() {
+
+	int k;
+	int a[1000];
+
+	for (int i = 0; i < 1000;i++) {
+		a[i] = 0;
+	}
+	a[0] = 1;
+	a[1] = 1;
+	std::ofstream file("adat2.txt");
+	for (int i = 2; i < 1000;) {
+		//választok egy véletlen csúcsot a már létezo csúcsok közül
+		int s = veletlen(i);
+		
+		
+		//ennek a fokszáma lesz a k
+		int k = a[s];
+		double A = 0;
+				for (int s = 0; s < i; s++) {
+					int nl = 0;
+					for (int g = 0; g < s; g++) {
+						if (a[s] == a[g]) {
+							nl++;
+						}
+					}
+					if (nl != 0) {
+						A =  s /(k*nl);
+					}
+				}
+				
+				std::cout << i << '\t'<< A <<std::endl;
+				double q = veletlen(1);
+		if (q < A) {
+			std::cout << i << '\t' << A << '\t' << A << std::endl;
+			a[s] = a[s]+1;
+			a[i] = a[i] + 1;
+			i++;
+		}
+	}
+	for (int i = 0; i < 1000; i++) {
+		file << a[i] << std::endl;
+	}
+}

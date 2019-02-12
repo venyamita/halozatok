@@ -1,0 +1,41 @@
+// Nagy Péter
+// M07ILF
+//statfiz beadandó
+//2018.04.23.
+//oprendszer:windows10
+//IDE:VS
+
+
+#include "stdafx.h"
+
+#include <array>    
+#include <numeric>  
+#include <iomanip>  
+#include <iostream> 
+#include <fstream>
+#include <random>   
+#include <math.h>
+
+
+
+//random szám 0 és N-1 között
+int veletlen(int N) {
+	std::random_device rd;
+	std::mt19937 Generator(rd());
+	std::uniform_real_distribution<double> Distribution(0, N);
+	return Distribution(Generator);
+}
+
+
+
+int main() {
+	std::cout << "adja meg hogy hany csomopontot hozzunk letre" << std::endl;
+	int N;
+	std::cin >> N;
+	std::ofstream file("adat.txt");
+	//létrehozok egy új pontot majd véletlen választok hozzá egy csatolási pontot a már meglévok közül
+	for (int i = 0; i < N; i++) {
+		file << i << "\t" << veletlen(i) << std::endl;
+	}
+	file.close();
+}
